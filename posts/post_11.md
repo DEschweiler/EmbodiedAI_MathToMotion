@@ -23,19 +23,19 @@ The robot never knows its exact state — sensors are noisy. The **Kalman filter
 
 **Predict** (using the motion model):
 
-$$\hat{\mathbf{x}_{t|t-1}} = F \hat{\mathbf{x}_{t-1}} + B \mathbf{u_t}, \quad P_{t|t-1} = F P_{t-1} F^\top + Q$$
+$$\hat{\mathbf{x_{t|t-1}}} = F \hat{\mathbf{x_{t-1}}} + B \mathbf{u_t}, \quad P_{t|t-1} = F P_{t-1} F^\top + Q$$
 
 **Update** (incorporating the measurement $\mathbf{z}_t$):
 
 $$K_t = P_{t|t-1} H^\top (H P_{t|t-1} H^\top + R)^{-1}$$
 
-$$\hat{\mathbf{x}_t} = \hat{\mathbf{x}_{t|t-1}} + K_t(\mathbf{z}_t - H \hat{\mathbf{x}_{t|t-1}})$$
+$$\hat{\mathbf{x_t}} = \hat{\mathbf{x_{t|t-1}}} + K_t(\mathbf{z}_t - H \hat{\mathbf{x_{t|t-1}}})$$
 
 $$P_t = (I - K_t H) P_{t|t-1}$$
 
 where $F$ is the state transition matrix, $H$ the observation matrix, $Q$ the process noise covariance, $R$ the measurement noise covariance, and $K_t$ the **Kalman gain** — which optimally balances trust in the prediction vs. the measurement. This is classical Bayesian inference with Gaussians, connecting probability theory from the engineering mathematics curriculum directly to the ML stack.
 
-The LLM can serve as a *system diagnostician*: monitoring filter residuals $(\mathbf{z_t} - H\hat{\mathbf{x}_{t|t-1}})$ and flagging anomalies — "Warning: large position estimate deviation. Possible cause: slippery surface."
+The LLM can serve as a *system diagnostician*: monitoring filter residuals $(\mathbf{z_t} - H\hat{\mathbf{x_{t|t-1}}})$ and flagging anomalies — "Warning: large position estimate deviation. Possible cause: slippery surface."
 
 ### The Live Test
 
