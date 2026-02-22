@@ -13,7 +13,7 @@ A four-legged robot stands in a hallway. Someone says: *"Go to the door and wait
 
 Nothing about this is magic. It's a stack of well-understood methods — linear algebra, optimization, neural networks, language models, control theory — wired together into a system. This series walks through every layer of that stack, from the mathematical foundations to the final integration on real hardware. The running example throughout: a Unitree Go2 robot.
 
-<img src="../figures/dog_navigation_scheme.png" alt="Dog Navigation scheme" style="display:block;margin:16px auto;max-width:60%;height:auto;">
+<img src="figures/dog_navigation_scheme.png" alt="Dog Navigation scheme" style="display:block;margin:16px auto;max-width:60%;height:auto;">
 
 ## Why Machine Learning?
 
