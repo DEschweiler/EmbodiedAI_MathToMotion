@@ -29,7 +29,7 @@ $$\hat{\mathbf{x_{t|t-1}}} = F \hat{\mathbf{x_{t-1}}} + B \mathbf{u_t}, \quad P_
 
 $$K_t = P_{t|t-1} H^\top (H P_{t|t-1} H^\top + R)^{-1}$$
 
-$$\hat{\mathbf{x_t}} = \hat{\mathbf{x_{t|t-1}}} + K_t(\mathbf{z}_t - H \hat{\mathbf{x_{t|t-1}}})$$
+$$\hat{\mathbf{x_t}} = \hat{\mathbf{x_{t|t-1}}} + K_t(\mathbf{z_t} - H \hat{\mathbf{x_{t|t-1}}})$$
 
 $$P_t = (I - K_t H) P_{t|t-1}$$
 
