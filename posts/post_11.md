@@ -23,13 +23,13 @@ The robot never knows its exact state — sensors are noisy. The **Kalman filter
 
 **Predict** (using the motion model):
 
-$$\hat{\mathbf{x}}_{t|t-1} = F \hat{\mathbf{x}}_{t-1} + B \mathbf{u}_t, \quad P_{t|t-1} = F P_{t-1} F^\top + Q$$
+$$\hat{\mathbf{x}_{t|t-1}} = F \hat{\mathbf{x}_{t-1}} + B \mathbf{u_t}, \quad P_{t|t-1} = F P_{t-1} F^\top + Q$$
 
 **Update** (incorporating the measurement $\mathbf{z}_t$):
 
 $$K_t = P_{t|t-1} H^\top (H P_{t|t-1} H^\top + R)^{-1}$$
 
-$$\hat{\mathbf{x}}_t = \hat{\mathbf{x}}_{t|t-1} + K_t(\mathbf{z}_t - H \hat{\mathbf{x}}_{t|t-1})$$
+$$\hat{\mathbf{x}_t} = \hat{\mathbf{x}_{t|t-1}} + K_t(\mathbf{z}_t - H \hat{\mathbf{x}_{t|t-1}})$$
 
 $$P_t = (I - K_t H) P_{t|t-1}$$
 
