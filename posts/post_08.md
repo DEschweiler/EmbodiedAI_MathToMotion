@@ -1,6 +1,6 @@
 ---
 id: 008
-title: Seeing and Reading — Multimodal Models
+title: Seeing and Listening — Multimodal Models
 summary: Bridge vision and language with shared embeddings and VLMs.
 tags: [multimodal, clip, vlm]
 learning_goals:

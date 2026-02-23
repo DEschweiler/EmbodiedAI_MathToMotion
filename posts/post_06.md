@@ -1,6 +1,6 @@
 ---
 id: 006
-title: Reading — From N-Grams to Language Models
+title: Listening — From N-Grams to Language Models
 summary: Tokenization, N-grams, and transformers for next-token prediction.
 tags: [language, transformer, llm]
 learning_goals:
@@ -31,9 +31,9 @@ Instead of storing counts, train a neural network to *estimate* $P(x_t \mid x_{<
 
 The same architecture from Section 5, now applied to text. Each token is embedded as a vector. The transformer processes the full sequence with self-attention, and the output at position $t$ predicts the distribution over the next token:
 
-$$P(x_t \mid x_1, \dots, x_{t-1}) = \text{softmax}(W_{\text{vocab}} \cdot \mathbf{h}_t)$$
+$$P(x_t \mid x_1, \dots, x_{t-1}) = \text{softmax}(W_{\text{vocab}} \cdot \mathbf{h_t})$$
 
-where $\mathbf{h}_t$ is the transformer's hidden state at position $t$ and $W_{\text{vocab}}$ projects back to vocabulary size. A critical detail: **causal masking** ensures that position $t$ can only attend to positions $\leq t$, preserving the autoregressive structure (the model can't peek at future tokens).
+where $\mathbf{h_t}$ is the transformer's hidden state at position $t$ and $W_{\text{vocab}}$ projects back to vocabulary size. A critical detail: **causal masking** ensures that position $t$ can only attend to positions $\leq t$, preserving the autoregressive structure (the model can't peek at future tokens).
 
 ### Embeddings
 
