@@ -56,6 +56,23 @@ body {
 .brand-title { font-weight: 700; letter-spacing: 0.4px; }
 .brand-sub { color: var(--muted); font-size: 14px; }
 
+.github-link {
+  margin-left: auto;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.github-link:hover {
+  color: var(--text);
+}
+
+.github-link svg {
+  display: block;
+}
+
 .search input {
   width: 100%;
   padding: 12px 14px;
