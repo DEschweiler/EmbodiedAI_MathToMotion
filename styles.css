@@ -57,7 +57,6 @@ body {
 .brand-sub { color: var(--muted); font-size: 14px; }
 
 .github-link {
-  margin-left: auto;
   color: var(--muted);
   display: flex;
   align-items: center;
