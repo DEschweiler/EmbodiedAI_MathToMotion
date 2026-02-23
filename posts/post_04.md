@@ -27,7 +27,7 @@ $$\mathcal{L}_{\text{contrastive}} = -\log \frac{\exp(\text{sim}(v_i, v_i^+) / \
 
 where $\text{sim}$ is cosine similarity and $\tau$ is a temperature parameter. No labels — just data augmentations.
 
-**Next-Token Prediction:** Given a text sequence, predict the next token. The label is the text itself. (→ Post 6)
+**Next-Token Prediction:** Given a text sequence, predict the next token. The label is the text itself. (→ Section 6)
 
 ### Foundation Models
 

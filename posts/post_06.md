@@ -29,7 +29,7 @@ Instead of storing counts, train a neural network to *estimate* $P(x_t \mid x_{<
 
 ### The Transformer for Language
 
-The same architecture from Post 5, now applied to text. Each token is embedded as a vector. The transformer processes the full sequence with self-attention, and the output at position $t$ predicts the distribution over the next token:
+The same architecture from Section 5, now applied to text. Each token is embedded as a vector. The transformer processes the full sequence with self-attention, and the output at position $t$ predicts the distribution over the next token:
 
 $$P(x_t \mid x_1, \dots, x_{t-1}) = \text{softmax}(W_{\text{vocab}} \cdot \mathbf{h}_t)$$
 
@@ -45,7 +45,7 @@ GPT is a decoder-only transformer trained on next-token prediction over massive 
 
 $$\mathcal{L} = -\sum_{t=1}^{T} \log P_\theta(x_t \mid x_1, \dots, x_{t-1})$$
 
-No manual labels are needed — the next token *is* the label. This makes GPT a foundation model for language, trained self-supervised at scale. But it's "just" a text generator: given context, it produces the most probable continuation. It doesn't inherently answer questions or follow instructions. How to get from here to a useful assistant is the subject of Post 7.
+No manual labels are needed — the next token *is* the label. This makes GPT a foundation model for language, trained self-supervised at scale. But it's "just" a text generator: given context, it produces the most probable continuation. It doesn't inherently answer questions or follow instructions. How to get from here to a useful assistant is the subject of Section 7.
 
 ### → Next
 

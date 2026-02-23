@@ -43,9 +43,9 @@ Selected teams demonstrate their full solution on the real Unitree Go2. The task
 
 ### Tracing the Full Stack
 
-Every post has contributed a component:
+Every Section has contributed a component:
 
-| Component | Post |
+| Component | Section |
 |-----------|------|
 | Data as feature vectors | 1 |
 | MLP architecture | 1 |

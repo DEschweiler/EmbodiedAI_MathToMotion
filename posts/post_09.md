@@ -32,7 +32,7 @@ Bringing everything together:
       → Physical execution (ROS2, motor currents)
         → Sensor feedback → back to LLM planner
 
-Every post in this series has contributed a component. The LLM planner orchestrates them: data representations (Post 1), neural network training (Posts 2–3), foundation model adaptation (Post 4), vision (Post 5), language understanding (Posts 6–7), and multimodal perception (Post 8).
+Every Section in this series has contributed a component. The LLM planner orchestrates them: data representations (Section 1), neural network training (Sections 2–3), foundation model adaptation (Section 4), vision (Section 5), language understanding (Sections 6–7), and multimodal perception (Section 8).
 
 **ROS2 integration:** The LLM (running on a server) communicates with the robot (running its own hardware) via ROS2 — a messaging framework where components operate as nodes. The LLM is one node, motor control another, the camera a third.
 

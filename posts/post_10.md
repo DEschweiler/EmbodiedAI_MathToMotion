@@ -55,7 +55,7 @@ Designing reward functions by hand is notoriously difficult. Specify "move forwa
 
 ### The Motion Library
 
-The result: a set of robust skills — "walk forward", "walk sideways", "trot", "turn in place" — that the LLM planner from Post 9 calls as tools. Each skill is a trained policy handling millisecond-level motor coordination autonomously.
+The result: a set of robust skills — "walk forward", "walk sideways", "trot", "turn in place" — that the LLM planner from Section 9 calls as tools. Each skill is a trained policy handling millisecond-level motor coordination autonomously.
 
 ### → Next
 

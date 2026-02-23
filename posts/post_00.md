@@ -35,8 +35,8 @@ An important clarification: a neural network doesn't "know" what a cat is. It ha
 
 The Unitree Go2 serves as a concrete reference system throughout. Its architecture maps onto three layers:
 
-- **Cognitive layer:** An LLM-based planner that interprets natural language commands and decomposes them into subtasks. (→ Posts 6–9)
-- **Motor layer:** ML models that have learned movement strategies — walking, trotting, obstacle avoidance. (→ Posts 1–3, 10)
+- **Cognitive layer:** An LLM-based planner that interprets natural language commands and decomposes them into subtasks. (→ Sections 6–9)
+- **Motor layer:** ML models that have learned movement strategies — walking, trotting, obstacle avoidance. (→ Sections 1–3, 10)
 - **Physical layer:** Control theory and mathematics that translate joint angles into motor currents. (→ Classical engineering)
 
 Every method introduced in this series plugs into one of these layers.
@@ -64,8 +64,8 @@ Every method introduced in this series plugs into one of these layers.
 | 10 | Learning to Walk: Deep Reinforcement Learning | III |
 | 11 | From Simulation to Reality and the Live Test | III |
 
-Each post ends with a transition to the next — they are designed to be read in sequence.
+Each section ends with a transition to the next — they are designed to be read in sequence.
 
 ### → Next
 
-We've established why ML is necessary, how the terms relate, and how the robot dog's architecture is structured. But before any model can learn, raw data — pixels, sensor readings, text — must be converted into numbers. And once the data is numerical, we need a model that can do something with it. Post 1 covers both: how data becomes math, and the first neural network that operates on it.
+We've established why ML is necessary, how the terms relate, and how the robot dog's architecture is structured. But before any model can learn, raw data — pixels, sensor readings, text — must be converted into numbers. And once the data is numerical, we need a model that can do something with it. Section 1 covers both: how data becomes math, and the first neural network that operates on it.

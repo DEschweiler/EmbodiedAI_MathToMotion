@@ -27,7 +27,7 @@ The LLM is then fine-tuned to maximize this reward using PPO (Proximal Policy Op
 
 $$\mathcal{L_{\text{RLHF}}} = -\mathbb{E}\left[R_\phi(\text{prompt}, \text{response})\right] + \beta \cdot D_{\text{KL}}[\pi_\theta \| \pi_{\text{ref}}]$$
 
-The KL-divergence term prevents the model from deviating too far from the pretrained distribution — otherwise it might learn to "game" the reward model by producing adversarial outputs that score high but are nonsensical. PPO is the same algorithm that appears in Post 10 for training locomotion policies — the connection is not accidental.
+The KL-divergence term prevents the model from deviating too far from the pretrained distribution — otherwise it might learn to "game" the reward model by producing adversarial outputs that score high but are nonsensical. PPO is the same algorithm that appears in Section 10 for training locomotion policies — the connection is not accidental.
 
 ### Prompt Engineering
 

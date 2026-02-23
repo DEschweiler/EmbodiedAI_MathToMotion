@@ -65,4 +65,4 @@ This is noisier but much faster per step, and the noise often helps escape local
 
 ### → Next
 
-We can now define a model, choose a loss, and optimize weights via gradient descent with backpropagation. In theory, this is all we need. In practice, a host of problems await: the model might memorize training data rather than generalize, the training might diverge, or the hyperparameters might be wrong. Post 3 covers the practical side of training — the diagnostics and techniques that make the difference between a model that works and one that doesn't.
+We can now define a model, choose a loss, and optimize weights via gradient descent with backpropagation. In theory, this is all we need. In practice, a host of problems await: the model might memorize training data rather than generalize, the training might diverge, or the hyperparameters might be wrong. Section 3 covers the practical side of training — the diagnostics and techniques that make the difference between a model that works and one that doesn't.
