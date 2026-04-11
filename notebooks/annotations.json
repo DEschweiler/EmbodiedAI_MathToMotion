@@ -1,0 +1,15 @@
+{
+  "_comment": "Ground-truth bounding boxes for verkehr.jpg at 1200x800. Format: [x, y, width, height] (top-left origin). Replace with precise values using a labeling tool (e.g. labelImg, CVAT).",
+  "image": "verkehr.jpg",
+  "image_size": [1200, 800],
+  "objects": [
+    {"id": 1, "label": "traffic_light", "bbox": [185, 148, 118, 230]},
+    {"id": 2, "label": "traffic_light", "bbox": [1078, 148, 82, 258]},
+    {"id": 3, "label": "car",           "bbox": [130, 445, 555, 355]},
+    {"id": 4, "label": "car",           "bbox": [575, 432, 225, 178]},
+    {"id": 5, "label": "car",           "bbox": [0,   612, 268, 188]},
+    {"id": 6, "label": "car",           "bbox": [998, 388, 168, 158]},
+    {"id": 7, "label": "traffic_sign",  "bbox": [1005, 276, 87, 108]},
+    {"id": 8, "label": "traffic_sign",  "bbox": [591, 358, 138, 128]}
+  ]
+}

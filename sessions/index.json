@@ -1,0 +1,16 @@
+{
+  "sessions": [
+    { "file": "session_00.md" },
+    { "file": "session_01.md" },
+    { "file": "session_02.md" },
+    { "file": "session_03.md" },
+    { "file": "session_04.md" },
+    { "file": "session_05.md" },
+    { "file": "session_06.md" },
+    { "file": "session_07.md" },
+    { "file": "session_08.md" },
+    { "file": "session_09.md" },
+    { "file": "session_10.md" },
+    { "file": "session_11.md" }
+  ]
+}
