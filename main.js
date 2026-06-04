@@ -247,7 +247,17 @@ async function renderPost(post) {
     const n = blocks.length;
     elements.blockCount.textContent = n ? `${n} blocks · ${n} slides` : '';
   }
-  elements.postContent.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+  // Syntax-highlight code blocks. Guard each call: if highlight.js throws on an
+  // unusual block (e.g. ASCII diagrams), it must NOT abort the render and skip
+  // the MathJax typeset below — otherwise equations in code-bearing sessions
+  // silently fail to render.
+  elements.postContent.querySelectorAll('pre code').forEach(block => {
+    try {
+      hljs.highlightElement(block);
+    } catch (err) {
+      console.warn('highlight.js skipped a block', err);
+    }
+  });
   if (elements.reader) {
     elements.reader.scrollTo({ top: 0, behavior: 'smooth' });
   }

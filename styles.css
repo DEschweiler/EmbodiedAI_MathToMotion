@@ -252,6 +252,12 @@ h1 {
 /* Inside a dark code block the inline-code styling must not apply (it gave a
    light background to light text → unreadable). Reset it to inherit the pre. */
 .content pre code { background: transparent; padding: 0; border-radius: 0; color: inherit; }
+/* highlight.js wraps tokens in colored spans meant for a LIGHT theme; on our
+   dark code background those dark colors are unreadable. Force every token —
+   and the .hljs container itself — to inherit the light pre text color. */
+.content pre code.hljs { background: transparent; color: #e2e8f0; }
+.content pre code .hljs,
+.content pre code span { color: inherit; background: transparent; }
 
 .nav-buttons { display: flex; gap: 10px; align-items: center; }
 .nav-buttons button {
