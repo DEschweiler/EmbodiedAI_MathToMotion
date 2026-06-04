@@ -5,6 +5,8 @@ const state = {
   search: ''
 };
 
+const CONTENT_DIR = 'sessions';
+
 const elements = {
   postList: document.getElementById('post-list'),
   postTitle: document.getElementById('post-title'),
@@ -58,8 +60,8 @@ async function typesetContent() {
 
 async function init() {
   try {
-    const manifest = await fetch('sessions/index.json', { cache: 'no-store' }).then(res => res.json());
-    const metas = await Promise.all(manifest.sessions.map(loadFrontmatter));
+    const manifest = await fetch('posts/index.json').then(res => res.json());
+    const metas = await Promise.all(manifest.posts.map(loadFrontmatter));
     state.posts = metas
       .filter(Boolean)
       .sort((a, b) => {
@@ -73,20 +75,36 @@ async function init() {
     if (initial) {
       selectPost(initial.id);
     } else {
-      elements.postContent.textContent = 'No posts found.';
+      elements.postContent.textContent = 'No sessions found.';
     }
     elements.search.addEventListener('input', onSearch);
     elements.prev.addEventListener('click', () => selectAdjacent(-1));
     elements.next.addEventListener('click', () => selectAdjacent(1));
   } catch (err) {
     console.error(err);
-    elements.postContent.textContent = 'Failed to load posts. If opened via file://, please run a local server or deploy to a static host.';
+    elements.postContent.textContent = `Failed to load sessions: ${err.message}. If opened via file://, please run a local server or deploy to a static host.`;
   }
+}
+
+async function fetchJson(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`${url} returned ${response.status}`);
+  }
+  return response.json();
+}
+
+async function fetchText(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`${url} returned ${response.status}`);
+  }
+  return response.text();
 }
 
 async function loadFrontmatter(entry) {
   try {
-    const raw = await fetch(`sessions/${entry.file}`, { cache: 'no-store' }).then(res => res.text());
+    const raw = await fetch(`posts/${entry.file}`).then(res => res.text());
     const parsed = parseFrontmatter(raw);
     const idRaw = parsed.meta && parsed.meta.id !== undefined ? parsed.meta.id : null;
     const idNumber = Number.isFinite(Number(idRaw)) ? Number(idRaw) : null;
@@ -187,7 +205,7 @@ async function renderPost(post) {
   elements.prev.disabled = currentIdx <= 0;
   elements.next.disabled = currentIdx === -1 || currentIdx >= state.filtered.length - 1;
 
-  const raw = await fetch(`sessions/${post.file}`, { cache: 'no-store' }).then(res => res.text());
+  const raw = await fetch(`posts/${post.file}`).then(res => res.text());
   const parsed = parseFrontmatter(raw);
   const blocks = splitBlocks(parsed.content);
   elements.postContent.innerHTML = blocks.map((block, i) => {
