@@ -249,6 +249,9 @@ h1 {
 .content ul { padding-left: 22px; }
 .content code { background: #f3f4f6; padding: 2px 6px; border-radius: 6px; }
 .content pre { background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 10px; overflow: auto; }
+/* Inside a dark code block the inline-code styling must not apply (it gave a
+   light background to light text → unreadable). Reset it to inherit the pre. */
+.content pre code { background: transparent; padding: 0; border-radius: 0; color: inherit; }
 
 .nav-buttons { display: flex; gap: 10px; align-items: center; }
 .nav-buttons button {

@@ -122,6 +122,33 @@ async function loadFrontmatter(entry) {
   }
 }
 
+// Protect LaTeX math from marked.js by replacing with placeholders,
+// parsing markdown, then restoring the original math strings.
+function renderBlock(md) {
+  const stash = [];
+
+  // Display math $$...$$ (possibly multiline)
+  md = md.replace(/\$\$([\s\S]*?)\$\$/g, (match) => {
+    const key = `\x02MATH${stash.length}\x03`;
+    stash.push(match);
+    return key;
+  });
+
+  // Inline math $...$ (single line, non-greedy)
+  md = md.replace(/\$([^\$\n]+?)\$/g, (match) => {
+    const key = `\x02MATH${stash.length}\x03`;
+    stash.push(match);
+    return key;
+  });
+
+  let html = marked.parse(md, { mangle: false, headerIds: false });
+
+  // Restore math — also unwrap any <em> tags marked injected around _ inside placeholders
+  html = html.replace(/\x02MATH(\d+)\x03/g, (_, i) => stash[Number(i)]);
+
+  return html;
+}
+
 // A block = one self-contained unit that will later become one slide.
 // Blocks are delimited in the markdown by a line containing only "---".
 function splitBlocks(md) {
@@ -209,7 +236,7 @@ async function renderPost(post) {
   const parsed = parseFrontmatter(raw);
   const blocks = splitBlocks(parsed.content);
   elements.postContent.innerHTML = blocks.map((block, i) => {
-    const html = marked.parse(block, { mangle: false, headerIds: false });
+    const html = renderBlock(block);
     const no = String(i + 1).padStart(2, '0');
     return `<section class="block" data-block="${i + 1}">` +
            `<span class="block-no" title="Block ${i + 1} — future slide ${no}">${no}</span>` +
