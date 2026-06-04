@@ -13,6 +13,8 @@ learning_goals:
 
 Sessions 1 and 2 built the theoretical machinery: model, loss, optimizer. This session covers what actually happens when you run the training loop — and the many ways it can go wrong. The gap between "the algorithm is correct" and "the model works well" is filled by the techniques here.
 
+---
+
 ## The Central Problem: Generalization
 
 A model with enough parameters can memorize any training set — driving the training loss to exactly zero while learning nothing generalizable. That's **overfitting**: perfect on training data, poor on new data. The opposite failure is **underfitting**: the model is too constrained to capture the underlying pattern.
@@ -31,6 +33,8 @@ $$\mathbb{E}[(f_\theta(\mathbf{x}) - y)^2] = \text{Bias}^2 + \text{Variance} + \
 
 Increasing model capacity reduces bias but increases variance. Regularization allows high-capacity models while limiting variance.
 
+---
+
 ## Train / Validation / Test Splits
 
 - **Training set** (~70%): the model learns from this.
@@ -42,6 +46,8 @@ A critical rule: normalization statistics must be computed on the training set o
 ### K-Fold Cross-Validation
 
 When data is scarce, a single validation split introduces high variance. K-fold cross-validation divides the training data into $K$ parts, trains $K$ times (using $K-1$ for training, 1 for validation), and averages the scores. Typical $K = 5$ or $10$. The test set remains untouched.
+
+---
 
 ## Regularization
 
@@ -75,6 +81,8 @@ where $\gamma$, $\beta$ are learned. Benefits: faster training, reduced sensitiv
 
 Creates modified copies of training examples — random crops, flips, color jitter for images; Gaussian noise on sensor readings for the robot. Free regularization: no additional annotation, only compute.
 
+---
+
 ## Reading Learning Curves
 
 | Pattern | Diagnosis | Action |
@@ -87,9 +95,13 @@ Creates modified copies of training examples — random crops, flips, color jitt
 
 **Early stopping:** monitor validation loss and halt when it stops improving, using a patience parameter of $k$ epochs. The checkpoint at the best validation epoch is kept.
 
+---
+
 ## Hyperparameters vs. Learned Parameters
 
 Learned parameters ($\theta$: weights, biases) are found by gradient descent. **Hyperparameters** — learning rate, batch size, network depth, dropout rate, weight decay — are set before training. Tuning strategies: grid search, random search, Bayesian optimization. The learning rate is the single most important hyperparameter; tune it first.
+
+---
 
 ## Connecting to the Robot Dog
 

@@ -12,6 +12,8 @@ learning_goals:
 
 Every machine learning model starts the same way: raw data arrives, and it must be turned into numbers. This session covers that conversion for the three main modalities the robot dog works with — tabular sensor data, images, and text — and then builds the first model capable of learning from those numbers.
 
+---
+
 ## From Raw Data to Numbers
 
 Computers operate on numbers, so every modality needs a *feature space*: a mathematical representation that captures relevant information while discarding irrelevant variation.
@@ -32,6 +34,8 @@ $$\tilde{x}_j = \frac{x_j - \mu_j}{\sigma_j}$$
 
 where $\mu_j$ and $\sigma_j$ are estimated from the training set. Always compute normalization statistics on training data only — applying training statistics to validation and test data ensures no information leaks.
 
+---
+
 ## Formal Learning Setup
 
 The notation that carries through the entire series:
@@ -42,6 +46,8 @@ The notation that carries through the entire series:
 - **Hypothesis** $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$: a parameterized function. Learning consists of finding parameters $\theta$ such that $f_\theta(\mathbf{x})$ approximates $y$ well across $\mathcal{D}$ — and, crucially, on *new* inputs drawn from the same distribution.
 
 The goal is *generalization*, not memorization. Session 3 addresses how to measure and improve generalization.
+
+---
 
 ## The Perceptron
 
@@ -61,6 +67,8 @@ $$\mathbf{w} \leftarrow \mathbf{w} + \eta \cdot (y_i - \hat{y}_i) \cdot \mathbf{
 
 This converges to a correct solution *if and only if* the data are linearly separable.
 
+---
+
 ## Why One Perceptron Isn't Enough: XOR
 
 The XOR function outputs 1 when exactly one of two binary inputs is 1:
@@ -73,6 +81,8 @@ The XOR function outputs 1 when exactly one of two binary inputs is 1:
 | 1 | 1 | 0 |
 
 Plot these in 2D: the two classes cannot be separated by a single line. No choice of $\mathbf{w}$ and $b$ solves this — XOR is *not linearly separable* (Minsky & Papert, 1969). The issue is not the activation function: even with a sigmoid or ReLU, the decision boundary of a single perceptron remains a hyperplane. We need to *transform* the input space so that XOR becomes linearly separable in the new representation. That transformation is learned by hidden layers.
+
+---
 
 ## Multi-Layer Perceptrons
 
@@ -97,6 +107,8 @@ Practical rules of thumb:
 
 An MLP with a single hidden layer and a sufficient number of neurons can approximate any continuous function on a compact domain to arbitrary accuracy (Cybenko, 1989; Hornik, 1991). In practice, deeper networks generalize better and are easier to train than very wide shallow ones.
 
+---
+
 ## Activation Functions
 
 Without activation functions, stacking layers collapses into a single linear transformation.
@@ -106,6 +118,8 @@ $$\text{Step}(z) = \mathbb{1}[z \geq 0] \quad \text{Sigmoid}(z) = \frac{1}{1 + e
 $$\text{ReLU}(z) = \max(0, z) \quad \text{Softmax}(\mathbf{z})_i = \frac{e^{z_i}}{\sum_j e^{z_j}}$$
 
 The step function is non-differentiable — cannot be used with gradient descent. **ReLU** is the standard default for hidden layers. Sigmoid for binary output probability. Softmax for multi-class classification.
+
+---
 
 ## Connecting to the Robot Dog
 

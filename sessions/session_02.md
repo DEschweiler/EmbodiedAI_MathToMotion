@@ -13,6 +13,8 @@ learning_goals:
 
 Session 1 introduced the model: a parameterized function $f_\theta$ that maps inputs to outputs. The parameters $\theta$ start random — the model knows nothing. This session answers the fundamental question: how do we find $\theta$ values that make the model useful?
 
+---
+
 ## What Learning Means
 
 Learning means adjusting $\theta$ so that predictions $f_\theta(\mathbf{x})$ match true labels $y$. "Match" is quantified by a **loss function** $\mathcal{L}(f_\theta(\mathbf{x}), y) \in \mathbb{R}_{\geq 0}$ — a differentiable scalar that measures how wrong the model is. Learning is then formally defined as:
@@ -20,6 +22,8 @@ Learning means adjusting $\theta$ so that predictions $f_\theta(\mathbf{x})$ mat
 $$\theta^* = \arg\min_\theta \frac{1}{N} \sum_{i=1}^{N} \mathcal{L}(f_\theta(\mathbf{x}_i), y_i)$$
 
 This is called *empirical risk minimization*. Two requirements on $\mathcal{L}$: it must be (1) **non-negative**, and (2) **differentiable** with respect to $\theta$ almost everywhere.
+
+---
 
 ## Loss Functions
 
@@ -45,6 +49,8 @@ $$\mathcal{L}_\text{CE} = -\frac{1}{N} \sum_{i=1}^{N} \sum_{k=1}^{K} y_{i,k} \lo
 
 **Rule of thumb:** use MSE for regression, cross-entropy for classification. Applying MSE to classification is a common beginner mistake.
 
+---
+
 ## Gradient Descent
 
 The loss $\mathcal{L}(\theta)$ defines a surface over the parameter space. The gradient $\nabla_\theta \mathcal{L}$ points in the direction of steepest *ascent*. To minimize, step in the opposite direction:
@@ -61,6 +67,8 @@ $$\theta_{t+1} = \theta_t - \eta \cdot \frac{1}{B} \sum_{i \in \mathcal{B}_t} \n
 
 The noise in the gradient estimate often helps escape sharp minima. Typical batch sizes: 32–512. One full pass over the training set is an **epoch**.
 
+---
+
 ## Backpropagation
 
 Computing $\nabla_\theta \mathcal{L}$ requires derivatives of the loss with respect to every weight. For an MLP, this is done efficiently via the **chain rule**.
@@ -74,6 +82,8 @@ $$\frac{\partial \mathcal{L}}{\partial \hat{y}} = 2(\hat{y} - y), \quad \frac{\p
 $$\frac{\partial \mathcal{L}}{\partial z_1} = \frac{\partial \mathcal{L}}{\partial \hat{y}} \cdot \mathbf{w}_2 \odot \sigma'(z_1), \quad \frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\partial z_1} \cdot \mathbf{x}^\top$$
 
 A single forward pass followed by a single backward pass computes *all* gradients simultaneously, at roughly twice the cost of the forward pass alone. Modern frameworks (PyTorch, JAX) implement this automatically via *automatic differentiation*.
+
+---
 
 ## Practical Optimizers
 
@@ -93,12 +103,16 @@ $$\theta_{t+1} = \theta_t - \eta \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsi
 
 Defaults: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\eta = 10^{-3}$. Adam adapts the effective learning rate per parameter and is the most widely used optimizer in practice.
 
+---
+
 ## Learning Rate Schedules
 
 A fixed learning rate is rarely optimal. Common strategies:
 - **Step decay:** halve $\eta$ every $k$ epochs.
 - **Cosine annealing:** smooth decay from $\eta_\text{max}$ to $\eta_\text{min}$ over training.
 - **Warmup:** increase $\eta$ linearly for the first few hundred steps before decaying.
+
+---
 
 ## Weight Initialization
 

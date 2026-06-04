@@ -12,6 +12,8 @@ learning_goals:
 
 Phase I assumed that every training example has a label. In practice, obtaining labels is the biggest scaling bottleneck in machine learning — and overcoming it is one of the defining achievements of the last decade.
 
+---
+
 ## The Annotation Bottleneck
 
 Consider what labeling actually requires:
@@ -23,6 +25,8 @@ Consider what labeling actually requires:
 Modern models need billions of training examples, making exhaustive manual annotation impossible. Annotation strategies fall along a spectrum from manual (gold standard, doesn't scale) to crowdsourcing to weak supervision to self-supervised learning.
 
 An elegant example of inadvertent annotation: CAPTCHAs. Every "select all images containing traffic lights" click is a human-annotated training example. Google used reCAPTCHA data to train Street View detectors — the annotation cost was borne by users unknowingly.
+
+---
 
 ## Self-Supervised Learning
 
@@ -52,6 +56,8 @@ Predict the next element in a sequence, using the sequence itself as supervision
 
 **Next-token prediction (GPT):** Given $(t_1, \ldots, t_{n-1})$, predict $t_n$ via cross-entropy. Every text document on the internet is training data — no annotation whatsoever. Details in Session 6.
 
+---
+
 ## Foundation Models
 
 A **foundation model** is the result of self-supervised pretraining at massive scale. It learns general-purpose representations that transfer to many downstream tasks with very little task-specific data.
@@ -67,6 +73,8 @@ Examples:
 Performance follows *scaling laws* (Kaplan et al., 2020): loss decreases predictably as a power law of model size, dataset size, and compute. Larger models exhibit *emergent capabilities* — abilities absent in smaller models that appear sharply at a certain scale (e.g., multi-step reasoning, in-context learning).
 
 For the robot dog: instead of training separate models from scratch for terrain classification, obstacle detection, and object recognition, take a single vision foundation model and adapt it to each task.
+
+---
 
 ## Adapting Foundation Models
 

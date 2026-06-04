@@ -13,6 +13,8 @@ learning_goals:
 
 The robot dog needs to see. Its depth camera generates 640×480 frames at 30 Hz. From this stream, it must identify floor surfaces, obstacles, doors, and the humans giving it commands. This session covers the two dominant architectures for visual perception: Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs).
 
+---
+
 ## Why MLPs Fail on Images
 
 An MLP applied to a 224×224 RGB image flattens the input into 150,528 values. Three problems emerge:
@@ -22,6 +24,8 @@ An MLP applied to a 224×224 RGB image flattens the input into 150,528 values. T
 3. **No translation invariance.** A cat in the upper-left corner produces completely different activations from a cat in the lower-right.
 
 Convolutions address all three problems simultaneously.
+
+---
 
 ## Convolution
 
@@ -34,6 +38,8 @@ Three key inductive biases: **locality** (only neighboring pixels interact), **w
 ### Padding, Stride, and Multi-Channel Convolutions
 
 **Stride** $s$ controls step size; stride 2 halves spatial dimensions. Output size: $W_\text{out} = \lfloor(W - k + 2p)/s\rfloor + 1$. **Padding** $p$ controls border handling. A layer with $C_\text{in}$ input and $C_\text{out}$ output channels has $C_\text{out} \times C_\text{in} \times k^2$ weight parameters — far fewer than an MLP equivalent.
+
+---
 
 ## CNN Architecture
 
@@ -50,6 +56,8 @@ The gradient flows directly to earlier layers through the addition, enabling tra
 ### Receptive Fields
 
 The **receptive field** of a neuron is the region of the input image that influences its activation. Stacking $L$ layers of 3×3 convolutions gives a receptive field of $(2L+1)^2$. Strided convolutions and pooling expand it faster. This is the CNN's fundamental limitation: intermediate layers cannot reason about relationships between distant parts of the image.
+
+---
 
 ## Vision Transformers and Attention
 
@@ -71,6 +79,8 @@ $QK^\top \in \mathbb{R}^{n \times n}$ contains pairwise similarities between all
 
 **Multi-head attention** runs the mechanism $h$ times in parallel with independent projections, then concatenates results. Different heads learn to attend to different relationships simultaneously.
 
+---
+
 ## CNN vs. ViT: When to Use Which
 
 | Property | CNN | ViT |
@@ -81,6 +91,8 @@ $QK^\top \in \mathbb{R}^{n \times n}$ contains pairwise similarities between all
 | Best use case | Small-to-medium datasets, fine-tuning | Large-scale pretraining |
 
 For the robot dog: with a small robot-specific dataset, a pretrained CNN (fine-tuned from ImageNet) likely outperforms a ViT. At larger scale or with foundation model pretraining, ViTs dominate.
+
+---
 
 ## DINO and Segment Anything
 

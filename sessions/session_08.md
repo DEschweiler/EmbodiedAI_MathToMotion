@@ -12,6 +12,8 @@ learning_goals:
 
 The robot dog's camera produces images; the user speaks in language. These two modalities are processed by entirely different architectures — vision encoders and language transformers — with no natural way to connect them. Telling the robot to "pick up the blue object near the window" requires jointly understanding what "blue object near the window" means *and* finding it in the camera feed. This session covers the architectures that unify vision and language.
 
+---
+
 ## The Modality Gap
 
 After training separately, a vision encoder and a language model live in different representation spaces. The image embedding of a cat and the text embedding of "a cat" are arbitrary vectors in different high-dimensional spaces — there is no reason they should be similar, and in practice they are not.
@@ -21,6 +23,8 @@ To bridge modalities, we need either:
 2. A **unified sequence model** that processes image tokens and text tokens interchangeably (native multimodal approach).
 
 Both approaches exist; the most practical systems combine them.
+
+---
 
 ## CLIP: Connecting Images and Text
 
@@ -52,6 +56,8 @@ CLIP enables the robot to ground language in perception:
 - "Navigate to the door" → segment the image into regions, score each against "an open door", navigate to the highest-scoring region.
 - **Open-vocabulary detection:** pair CLIP with a detection head (e.g., GLIP, OWL-ViT) to detect arbitrary objects described in natural language — no pre-defined class list.
 
+---
+
 ## Vision-Language Models (VLMs)
 
 CLIP aligns embeddings but doesn't *generate* language. **Vision-Language Models** combine a vision encoder with a language model to support rich image-grounded reasoning and generation:
@@ -78,6 +84,8 @@ Only the projection layer and (optionally) the LLM are trained; the vision encod
 **Grounding** refers to connecting language expressions to specific regions of an image. "Pick up the object on the left" requires locating "the object on the left" as a bounding box or pixel mask in the current camera frame.
 
 Grounded VLMs (e.g., Grounding DINO, Grounded SAM) output both natural language descriptions and spatial references (bounding boxes, segmentation masks). This is essential for manipulation tasks: the planner says "pick up the blue cube" → the grounded VLM produces the cube's 3D position → the motion controller executes the grasp.
+
+---
 
 ## The Unified Representation Space
 

@@ -14,6 +14,7 @@ const elements = {
   search: document.getElementById('search'),
   prev: document.getElementById('prev-post'),
   next: document.getElementById('next-post'),
+  blockCount: document.getElementById('block-count'),
   reader: document.querySelector('.reader')
 };
 
@@ -57,8 +58,8 @@ async function typesetContent() {
 
 async function init() {
   try {
-    const manifest = await fetch('posts/index.json').then(res => res.json());
-    const metas = await Promise.all(manifest.posts.map(loadFrontmatter));
+    const manifest = await fetch('sessions/index.json', { cache: 'no-store' }).then(res => res.json());
+    const metas = await Promise.all(manifest.sessions.map(loadFrontmatter));
     state.posts = metas
       .filter(Boolean)
       .sort((a, b) => {
@@ -85,7 +86,7 @@ async function init() {
 
 async function loadFrontmatter(entry) {
   try {
-    const raw = await fetch(`posts/${entry.file}`).then(res => res.text());
+    const raw = await fetch(`sessions/${entry.file}`, { cache: 'no-store' }).then(res => res.text());
     const parsed = parseFrontmatter(raw);
     const idRaw = parsed.meta && parsed.meta.id !== undefined ? parsed.meta.id : null;
     const idNumber = Number.isFinite(Number(idRaw)) ? Number(idRaw) : null;
@@ -101,6 +102,15 @@ async function loadFrontmatter(entry) {
     console.error('Error loading', entry.file, err);
     return null;
   }
+}
+
+// A block = one self-contained unit that will later become one slide.
+// Blocks are delimited in the markdown by a line containing only "---".
+function splitBlocks(md) {
+  return md
+    .split(/\r?\n[ \t]*---[ \t]*\r?\n/)
+    .map(s => s.trim())
+    .filter(Boolean);
 }
 
 function parseFrontmatter(raw) {
@@ -177,10 +187,21 @@ async function renderPost(post) {
   elements.prev.disabled = currentIdx <= 0;
   elements.next.disabled = currentIdx === -1 || currentIdx >= state.filtered.length - 1;
 
-  const raw = await fetch(`posts/${post.file}`).then(res => res.text());
+  const raw = await fetch(`sessions/${post.file}`, { cache: 'no-store' }).then(res => res.text());
   const parsed = parseFrontmatter(raw);
-  const html = marked.parse(parsed.content, { mangle: false, headerIds: false });
-  elements.postContent.innerHTML = html;
+  const blocks = splitBlocks(parsed.content);
+  elements.postContent.innerHTML = blocks.map((block, i) => {
+    const html = marked.parse(block, { mangle: false, headerIds: false });
+    const no = String(i + 1).padStart(2, '0');
+    return `<section class="block" data-block="${i + 1}">` +
+           `<span class="block-no" title="Block ${i + 1} — future slide ${no}">${no}</span>` +
+           html +
+           `</section>`;
+  }).join('');
+  if (elements.blockCount) {
+    const n = blocks.length;
+    elements.blockCount.textContent = n ? `${n} blocks · ${n} slides` : '';
+  }
   elements.postContent.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
   if (elements.reader) {
     elements.reader.scrollTo({ top: 0, behavior: 'smooth' });

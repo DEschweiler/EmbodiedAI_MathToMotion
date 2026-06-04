@@ -14,6 +14,8 @@ Sessions 1–8 built every component separately: neural networks, vision, langua
 
 The answer is an **agent**: an LLM equipped with tools, a memory of past steps, and a loop that keeps it running until the task is done.
 
+---
+
 ## What Is an Agent?
 
 An agent is a system that perceives its environment, decides on an action, executes it, observes the result, and repeats. This perceive-plan-act-observe loop is not new — it is the basic architecture of every control system. What's new is placing a large language model at the center of the loop as the planner, with learned sub-skills available as callable tools.
@@ -30,6 +32,8 @@ while task_not_complete:
 ```
 
 The context grows with each iteration: the LLM always has access to the full history of what it has seen, planned, and done. This is what allows it to adapt when something unexpected happens.
+
+---
 
 ## Tool Calls
 
@@ -67,6 +71,8 @@ One alternative: train a neural network to map observations directly to motor co
 
 The LLM agent adds a layer of flexible reasoning: it can handle novel situations by combining tools in new ways, ask for clarification when uncertain, and explain its decisions in language. The trade-off is latency — an LLM inference call takes time — which is why the cognitive and motor layers are kept separate.
 
+---
+
 ## Chain-of-Thought and ReAct
 
 A naive agent that immediately emits tool calls often makes poor decisions on complex tasks. **Chain-of-thought prompting** (Session 7) asks the model to make its reasoning explicit before acting:
@@ -98,6 +104,8 @@ Action: move_forward(meters=4)
 
 Each thought-action-observation triple is one iteration of the loop.
 
+---
+
 ## Memory and Context Management
 
 The agent's context window fills up over a long task. Several strategies manage this:
@@ -109,6 +117,8 @@ The agent's context window fills up over a long task. Several strategies manage 
 **External memory:** store observations and plans in a structured external database (e.g., a key-value store or vector database). The LLM retrieves relevant entries by query rather than reading the full history. This is the approach used in more sophisticated agent frameworks.
 
 For a short navigation task, a sliding window of the last 10 steps is usually sufficient. For long-horizon tasks (exploring an entire building), external memory becomes necessary.
+
+---
 
 ## Error Handling and Replanning
 
@@ -123,6 +133,8 @@ Action: speak(text="Excuse me, I need to pass through.")
 ```
 
 This error-handling capability emerges from the LLM's general reasoning: it doesn't need explicit "if path blocked then..." rules. It reasons from the observation just as it would reason about any new information.
+
+---
 
 ## The Full System Architecture
 

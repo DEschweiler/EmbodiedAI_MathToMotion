@@ -13,6 +13,8 @@ learning_goals:
 
 The robot dog needs to understand language. When someone says "go to the door on your left and wait there," the system must parse this into a structured representation it can act on. This session covers how neural networks learn to process text — from basic statistical models to the transformer-based language models that power modern AI.
 
+---
+
 ## From Characters to Tokens
 
 Text could be encoded at the character level, but this is inefficient — assembling words from individual characters requires enormous context windows. At the opposite extreme, treating entire words as atomic units produces huge vocabularies. **Tokenization** strikes a middle ground: frequent character sequences are grouped into tokens (roughly morphemes or syllables). "Understanding" might become `["under", "stand", "ing"]`.
@@ -28,6 +30,8 @@ The dominant algorithm, used in GPT and Llama:
 
 BPE is built entirely from corpus statistics — no linguistic knowledge required. Common words become single tokens; rare words split into subword units. Any string is representable, including out-of-vocabulary words.
 
+---
+
 ## N-Grams: The Simplest Language Statistics
 
 Estimate the probability of the next token from relative counts:
@@ -36,9 +40,13 @@ $$P(x_t \mid x_{t-N+1}, \dots, x_{t-1}) = \frac{\text{count}(x_{t-N+1}, \dots, x
 
 With small $N$: locally plausible but globally incoherent text. With large $N$: mostly copies training data verbatim. The fundamental problem: possible N-grams grow as $|V|^N$. For $|V| = 50{,}000$ and $N = 5$: $\sim 3 \times 10^{23}$ possible sequences — the model cannot generalize to novel sentences. Long-range dependencies (subject and verb 20 tokens apart) are inaccessible to any fixed-window model.
 
+---
+
 ## Neural Language Models
 
 Instead of storing counts, train a neural network to estimate $P(x_t \mid x_{<t})$ directly. Because the function is parameterized and continuous, it generalizes to contexts never seen during training. The transformer enables this at scale.
+
+---
 
 ## The Transformer for Language
 
@@ -72,6 +80,8 @@ $$P(x_{t+1} = v \mid x_{\leq t}) = \text{softmax}(W_\text{vocab} \mathbf{h}_t)_v
 
 $W_\text{vocab}$ is often *tied* with the input embedding matrix $E^\top$, reducing parameters.
 
+---
+
 ## GPT: The Principle
 
 GPT is a decoder-only transformer trained on next-token prediction:
@@ -79,6 +89,8 @@ GPT is a decoder-only transformer trained on next-token prediction:
 $$\mathcal{L} = -\sum_{t=1}^{T} \log P_\theta(x_t \mid x_1, \dots, x_{t-1})$$
 
 No labels needed — the next token *is* the label. Trained on web-scale text (hundreds of billions to trillions of tokens), the model learns grammar, facts, reasoning patterns, and much more from this single objective. Scaling from GPT-1 (117M parameters) to GPT-3 (175B) produced emergent capabilities consistent with the scaling laws discussed in Session 4.
+
+---
 
 ## Encoder vs. Decoder Architectures
 
@@ -89,6 +101,8 @@ No labels needed — the next token *is* the label. Trained on web-scale text (h
 | Use case | Classification, embeddings | Text generation, instruction following |
 
 Most modern large language models (GPT-4, Llama, Mistral) are decoder-only.
+
+---
 
 ## Connecting to the Robot Dog
 

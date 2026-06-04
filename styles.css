@@ -190,9 +190,53 @@ h1 {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 12px 28px 28px;
   box-shadow: var(--shadow);
   line-height: 1.65;
+}
+
+/* Each block is a self-contained unit = one future slide.
+   The page reads as one continuous scroll, visibly divided into blocks. */
+.content .block {
+  position: relative;
+  padding: 30px 0 34px 0;
+  border-top: 1px dashed var(--border);
+  scroll-margin-top: 24px;
+}
+
+.content .block:first-child {
+  border-top: none;
+  padding-top: 18px;
+}
+
+/* The .block-no chip is the first child; the real content starts after it.
+   Reserve space on that first element so text never runs under the chip. */
+.content .block > .block-no + * { margin-top: 0; padding-right: 68px; }
+.content .block > :last-child { margin-bottom: 0; }
+
+.block-no {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid #c7dbff;
+  border-radius: 999px;
+  padding: 2px 9px;
+  user-select: none;
+}
+
+.content .block:first-child .block-no { top: 18px; }
+
+.block-count {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-right: 4px;
+  white-space: nowrap;
 }
 
 .content h2, .content h3, .content h4 {
@@ -200,10 +244,14 @@ h1 {
   font-family: 'Manrope', 'Segoe UI', sans-serif;
 }
 
+
 .content p { margin: 12px 0; }
 .content ul { padding-left: 22px; }
 .content code { background: #f3f4f6; padding: 2px 6px; border-radius: 6px; }
 .content pre { background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 10px; overflow: auto; }
+/* Inside a code block, the inline-code styling must not apply (it gave a light
+   background to light text → unreadable). Reset it to inherit the dark pre. */
+.content pre code { background: transparent; padding: 0; border-radius: 0; color: inherit; }
 
 .nav-buttons { display: flex; gap: 10px; align-items: center; }
 .nav-buttons button {

@@ -13,6 +13,8 @@ learning_goals:
 
 The previous ten sessions built every component of the system: from data representations through neural networks, foundation models, language understanding, multimodal perception, agent planning, and reinforcement learning. This final session closes the loop — from simulation to physical hardware — and critically reflects on what works, what doesn't, and where the field is heading.
 
+---
+
 ## The Sim-to-Real Gap
 
 Training a locomotion policy in simulation offers major advantages: simulation runs thousands of times faster than real time, is perfectly safe (no hardware damage from falls), and can generate arbitrary amounts of data. But simulation is a simplified model of reality, and that simplification creates problems when the policy is deployed on real hardware.
@@ -30,6 +32,8 @@ Training a locomotion policy in simulation offers major advantages: simulation r
 
 A policy that achieves perfect scores in simulation often fails on its first real-world test — it has overfit to the simulator's assumptions. Closing this gap is one of the central challenges of robotics.
 
+---
+
 ## Domain Randomization
 
 The most effective single technique: make the simulation intentionally messy. During training, randomize the physical parameters at the start of each episode:
@@ -44,6 +48,8 @@ If the policy can walk robustly under all these variations, real-world condition
 
 **Push recovery:** explicitly randomize external disturbances — apply random force impulses to the robot's body during training. The policy learns to recover from perturbations without ever having been programmed with explicit balance rules.
 
+---
+
 ## Privileged Learning and Teacher-Student Distillation
 
 Domain randomization creates a difficulty: during training, the policy can access the true physical parameters (because the simulation knows them). But during deployment, the robot doesn't know the exact friction or motor delay — it must infer them from sensors.
@@ -54,6 +60,8 @@ Domain randomization creates a difficulty: during training, the policy can acces
 2. **Student policy:** trained to *imitate* the teacher, but using only observations available at deployment (sensor readings, proprioceptive state). The student learns to implicitly estimate the hidden parameters from the pattern of sensor readings.
 
 This two-stage approach consistently outperforms direct policy training without privileged information. The teacher defines "what good behavior looks like"; the student learns to achieve it from observable information only.
+
+---
 
 ## State Estimation: The Kalman Filter
 
@@ -81,6 +89,8 @@ The residual $\mathbf{z}_t - H\hat{\mathbf{x}}_{t|t-1}$ is called the **innovati
 
 **LLM-assisted diagnostics:** the LLM planner monitors filter innovations and flags anomalies: if the velocity estimate and the visual odometry consistently disagree, the LLM can detect a potential sensor failure and alert the operator — an example of the cognitive layer supervising the physical layer in real time.
 
+---
+
 ## Online Adaptation
 
 Even with domain randomization and privileged learning, deployment conditions may fall outside the training distribution. **Online adaptation** adjusts the policy in real time based on observed behavior.
@@ -88,6 +98,8 @@ Even with domain randomization and privileged learning, deployment conditions ma
 **Rapid Motor Adaptation (RMA; Kumar et al., 2021):** a secondary adaptation network is trained to estimate the hidden environment embedding from a short history of proprioceptive observations. This embedding is fed to the main policy, allowing it to adjust its gait for the current terrain without any explicit environment identification step.
 
 **In-context adaptation:** the LLM planner can also adapt online — if the robot consistently fails to navigate a specific corridor segment, the planner updates its mental map and tries an alternative route, without retraining any weights.
+
+---
 
 ## The Live Test
 
@@ -98,6 +110,8 @@ Selected teams demonstrate their full solution on the real Unitree Go2. The task
 > It must execute autonomously — from voice input through LLM planning, VLM scene understanding, CLIP-based object localization, PPO locomotion, and Kalman-filtered state estimation — to physical movement and return.
 
 Evaluated on: task completion, robustness to disturbances, recovery from failures, and communication back to the operator.
+
+---
 
 ## Tracing the Full Stack
 
@@ -117,6 +131,8 @@ Every session has contributed a component to the final system:
 | Locomotion via RL (PPO) | 10 | Low-level gait control, motion skill library |
 | Domain randomization, Kalman filter | 11 | Sim-to-real robustness, sensor fusion |
 
+---
+
 ## What Works, What Doesn't
 
 An honest assessment of the current state:
@@ -132,6 +148,8 @@ An honest assessment of the current state:
 - **Latency and compute:** running a full VLM + LLM planning loop at useful frequency requires significant onboard or edge compute — a real-world engineering constraint.
 - **Long-horizon planning:** current LLM agents work well for tasks with <10 steps but struggle with multi-hour, multi-objective missions requiring consistent state tracking.
 
+---
+
 ## Ethics and Open Questions
 
 Deploying autonomous systems in shared human spaces raises genuine concerns:
@@ -144,12 +162,13 @@ Deploying autonomous systems in shared human spaces raises genuine concerns:
 
 These are not problems to solve after the technology is built — they are design constraints from the beginning.
 
+---
+
 ## Further Reading
 
 - Kumar et al.: "RMA: Rapid Motor Adaptation for Legged Robots" (RSS 2021) — [arxiv.org/abs/2107.04034](https://arxiv.org/abs/2107.04034)
 - Lee et al.: "Learning Quadrupedal Locomotion over Challenging Terrain" (*Science Robotics*, 2020)
 - Tobin et al.: "Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World" (IROS 2017)
 
----
 
 Embodied AI — systems that perceive, reason, and act in the physical world — is one of the most active research frontiers. The methods in this series are the current foundations. The applications are just beginning: logistics, healthcare, infrastructure inspection, scientific exploration. The stack from math to motion is assembled. What you build with it is up to you.

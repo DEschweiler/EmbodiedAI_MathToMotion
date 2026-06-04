@@ -15,6 +15,8 @@ Nothing about this is magic. It's a stack of well-understood methods — linear 
 
 <img src="figures/dog_navigation_scheme.png" alt="Dog Navigation scheme" style="display:left;margin:16px auto;max-width:80%;height:auto;">
 
+---
+
 ## What Is Embodied AI?
 
 Most AI systems live entirely in the digital world: they process text, generate images, answer questions. *Embodied AI* is different — it refers to systems that perceive and act in the physical world through a body. A robot, a drone, an autonomous vehicle: all of these are embodied agents.
@@ -22,6 +24,8 @@ Most AI systems live entirely in the digital world: they process text, generate 
 Embodied AI is harder than pure digital AI for a fundamental reason: the real world does not wait, does not repeat, and does not forgive errors cleanly. A language model that gives a wrong answer can be corrected in the next turn. A robot that misjudges a step falls. This series takes embodied AI seriously — the goal is not a demo that works once, but a system that works reliably.
 
 The Unitree Go2 is a commercially available quadruped robot: four legs, onboard compute, a suite of sensors (cameras, IMU, joint encoders). It is complex enough to be interesting and well-documented enough to be a concrete reference. Every concept introduced in this series is grounded in what that robot actually needs to do.
+
+---
 
 ## Why Machine Learning?
 
@@ -34,6 +38,8 @@ $$y = \begin{cases} 1 & \text{if } w_1 x_1 + w_2 x_2 + b \geq 0 \\ 0 & \text{oth
 Setting $w_1 = w_2 = 1$, $b = -1.5$ gives a perfect AND gate — trivially hand-crafted. Now try the same for a 224×224 RGB image (over 150,000 input values). Hand-crafting weights becomes impossible. We need an automated way to find them, and that's what learning algorithms provide.
 
 The same argument applies to locomotion. Writing explicit rules for how a four-legged robot should place its feet on uneven terrain is intractable. But a reinforcement learning agent, given a reward for not falling, can discover effective gait strategies through millions of simulated trials.
+
+---
 
 ## The Hierarchy: AI, ML, Deep Learning
 
@@ -50,6 +56,8 @@ Artificial Intelligence
 
 An important clarification: a neural network doesn't "know" what a cat is. It has learned to map certain numerical patterns to a label. Internal representations are statistical compressions of training data, not knowledge databases. This distinction matters enormously when discussing LLMs and their capabilities later.
 
+---
+
 ## The Robot Dog as a System
 
 The Unitree Go2 serves as a concrete reference system throughout. Its architecture maps onto three layers:
@@ -60,6 +68,8 @@ The Unitree Go2 serves as a concrete reference system throughout. Its architectu
 
 Every method introduced in this series plugs into one of these layers. Keeping the architecture in mind helps orient each new concept: *where does this go, and what does it interface with?*
 
+---
+
 ## Prerequisites
 
 This series assumes comfort with the following:
@@ -68,6 +78,8 @@ This series assumes comfort with the following:
 - **Calculus:** derivatives and the chain rule. Backpropagation is just the chain rule applied repeatedly.
 - **Basic probability:** expectations, probability distributions, conditional probability.
 - **Programming:** examples and pseudocode are Python-flavored. Familiarity with NumPy helps.
+
+---
 
 ## Three Phases, Twelve Sessions
 
@@ -123,4 +135,4 @@ Each session ends with a transition to the next — they are designed to be read
 
 ### → Next
 
-We've established why ML is necessary, how the terms relate, and how the robot dog's architecture is structured. But before any model can learn, raw data — pixels, sensor readings, text — must be converted into numbers. And once the data is numerical, we need a model that can do something with it. Session 1 covers both: how data becomes math, and the first neural network that operates on it.
+We've established why ML is necessary, how the terms relate, and how the robot dog's architecture is structured. But before any model can learn, raw data — pixels, sensor readings, text — must be converted into numbers. And once the data is numerical, we need a model that can do something with it. Session 1 covers both: how data becomes math, and the first neural

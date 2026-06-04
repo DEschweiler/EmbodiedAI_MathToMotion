@@ -13,6 +13,8 @@ learning_goals:
 
 Session 6 produced a base GPT model: a powerful text generator that predicts probable continuations. This session covers the critical gap between "probable continuation" and "helpful, honest, harmless response."
 
+---
+
 ## The Alignment Problem
 
 A base GPT model has one goal: predict the next token. It doesn't know that "being helpful" is desirable, that "refusing harmful requests" is expected, or that "answering in a structured format" is useful. Its outputs reflect the statistics of internet text — which includes questions followed by more questions, harmful content, and confident misinformation.
@@ -21,9 +23,13 @@ A base GPT model has one goal: predict the next token. It doesn't know that "bei
 1. **Behavioral alignment**: teach the model to follow instructions and answer questions directly.
 2. **Value alignment**: teach the model to decline harmful requests and behave safely.
 
+---
+
 ## Step 1: Supervised Fine-Tuning (SFT)
 
 Fine-tune on curated (instruction, ideal response) pairs with standard cross-entropy loss. This teaches the model *what helpful responses look like* — a specific format, a helpful tone, a direct answer. SFT requires relatively little data (thousands of examples) because the model already has knowledge from pretraining; it is shifting style, not learning new knowledge.
+
+---
 
 ## Step 2: Reward Modeling
 
@@ -32,6 +38,8 @@ Rather than specifying ideal responses, have human raters *compare* multiple res
 $$\mathcal{L}_\text{reward} = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma(R_\phi(x, y_w) - R_\phi(x, y_l)) \right]$$
 
 where $y_w$ is the preferred response and $y_l$ the less preferred one. Comparison is cognitively easier than generation for raters — faster and more reliable than writing the perfect response from scratch.
+
+---
 
 ## Step 3: RLHF — Reinforcement Learning from Human Feedback
 
@@ -43,6 +51,8 @@ The **KL divergence penalty** $\beta \cdot D_\text{KL}[\pi_\theta \| \pi_\text{r
 
 PPO solves this with a clipped surrogate objective that limits how much the policy changes per update. The same algorithm appears in Session 10 for locomotion — the mathematical structure is identical.
 
+---
+
 ## Alternative: Direct Preference Optimization (DPO)
 
 RLHF is complex: a separate reward model, online PPO sampling, careful tuning. **DPO** (Rafailov et al., 2023) shows mathematically that the RLHF objective has an equivalent form optimizable directly on preference pairs:
@@ -50,6 +60,8 @@ RLHF is complex: a separate reward model, online PPO sampling, careful tuning. *
 $$\mathcal{L}_\text{DPO}(\theta) = -\mathbb{E} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_\text{ref}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_\text{ref}(y_l|x)} \right) \right]$$
 
 No RL, no reward model, no online sampling — just a supervised loss on preference data. DPO is now widely adopted for open-source LLM alignment (Llama, Mistral, Zephyr).
+
+---
 
 ## Prompt Engineering
 

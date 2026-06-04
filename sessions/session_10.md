@@ -13,6 +13,8 @@ learning_goals:
 
 Sessions 1–9 gave the robot dog the ability to see, understand language, and plan. But we have been assuming it can *move*. Locomotion — walking, trotting, turning, recovering from stumbles — is a fundamentally different problem from supervised learning: there are no labeled examples of "correct walking." The robot must discover how to walk through millions of trials in simulation. This session introduces reinforcement learning and the algorithm that trains the locomotion controller.
 
+---
+
 ## A Different Kind of Learning
 
 In supervised learning, every training example has a ground-truth label. The loss is computed per example. Learning is stable and well-understood.
@@ -20,6 +22,8 @@ In supervised learning, every training example has a ground-truth label. The los
 In reinforcement learning, no ground truth exists. The agent takes actions, receives a reward signal, and must infer which actions caused which rewards — often with a significant delay. If the robot falls after 3 seconds of walking, which of the 300 motor commands over those 3 seconds was the critical mistake?
 
 This is the **credit assignment problem**: attributing reward to the right actions across time. Solving it efficiently is the central challenge of RL.
+
+---
 
 ## The Markov Decision Process
 
@@ -40,6 +44,8 @@ The **policy** $\pi_\theta(a \mid s)$ maps states to a distribution over actions
 
 $$a_t \sim \mathcal{N}(\mu_\theta(s_t), \text{diag}(\sigma_\theta(s_t)^2))$$
 
+---
+
 ## Reward Design
 
 The reward function encodes what "good walking" means. Designing it is one of the most important and difficult steps in RL. Too sparse (reward only when the robot reaches a goal) → the robot almost never receives feedback, and learning is extremely slow. Too dense (reward every tiny improvement) → the robot may find unexpected ways to optimize the reward without achieving the intended behavior.
@@ -57,6 +63,8 @@ $$R(s, a, s') = r_\text{velocity} + r_\text{stability} + r_\text{energy} + r_\te
 The relative weights of these terms determine what gait emerges. High energy penalty → slow, efficient crawl. High velocity reward → fast but potentially unstable trot. Finding the right balance requires iteration.
 
 **Reward hacking:** a notorious RL failure mode where the agent finds an unexpected way to maximize the reward without achieving the intended behavior. Classic example: tell the robot to maximize forward velocity, and it learns to slide on its side — technically high forward velocity, not useful locomotion. Every reward term is a constraint that shapes the solution space; missing a term opens a loophole.
+
+---
 
 ## Value Functions and the Bellman Equation
 
@@ -84,6 +92,8 @@ $$A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s)$$
 
 If $A > 0$, the action is better than average and should be made more likely. If $A < 0$, it's worse than average and should be suppressed. Advantage estimates are the learning signal in policy gradient methods.
 
+---
+
 ## Actor-Critic Architecture
 
 PPO uses an **actor-critic** architecture: two networks sharing parameters or running in parallel.
@@ -101,6 +111,8 @@ $$\hat{A}_t = \sum_{l=0}^{\infty} (\gamma \lambda)^l \delta_{t+l}$$
 
 where $\delta_t = R_t + \gamma V(s_{t+1}) - V(s_t)$ is the TD error and $\lambda \in [0, 1]$ controls the bias-variance tradeoff. $\lambda = 0$ gives pure TD (low variance, high bias); $\lambda = 1$ gives full Monte Carlo returns (high variance, low bias). Typical $\lambda = 0.95$.
 
+---
+
 ## PPO: Proximal Policy Optimization
 
 **Policy gradient** methods update $\theta$ to increase the probability of actions that led to high advantage. The naive update is:
@@ -117,6 +129,8 @@ where the probability ratio $r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{
 
 **Parallel training:** hundreds of simulated robot instances collect experience simultaneously, all feeding into the same policy update. This parallelism is essential — locomotion training requires billions of simulation steps, and even a fast physics simulator takes hours with a single instance.
 
+---
+
 ## The LLM as Reward Designer
 
 Designing reward functions by hand is labor-intensive and error-prone. An exciting recent direction: describe the desired behavior in natural language and use an LLM to generate the reward function automatically.
@@ -124,6 +138,8 @@ Designing reward functions by hand is labor-intensive and error-prone. An exciti
 > "Walk energy-efficiently at 0.5 m/s on flat terrain. Maintain a stable body posture. Prefer smooth leg trajectories over jerky ones."
 
 The LLM translates this into Python code implementing $R(s, a, s')$, which is then executed in the simulation loop. Errors or unexpected behaviors can be described back to the LLM, which revises the reward. This closes the reward engineering loop and bridges the cognitive and motor layers: the LLM planner not only issues commands but can also shape the learning objectives of the motor controller.
+
+---
 
 ## The Motion Skill Library
 
@@ -139,6 +155,8 @@ After training, the result is a library of robust, specialized policies:
 | `recover` | Stand up from fallen position | — |
 
 Each skill is a trained policy that handles millisecond-level motor coordination autonomously. The LLM planner from Session 9 calls them as tools via tool use — "walk_forward(speed=0.4)" — without needing to know anything about joint angles or motor torques.
+
+---
 
 ## Further Reading
 
