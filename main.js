@@ -60,8 +60,8 @@ async function typesetContent() {
 
 async function init() {
   try {
-    const manifest = await fetch('posts/index.json').then(res => res.json());
-    const metas = await Promise.all(manifest.posts.map(loadFrontmatter));
+    const manifest = await fetch('sessions/index.json').then(res => res.json());
+    const metas = await Promise.all(manifest.sessions.map(loadFrontmatter));
     state.posts = metas
       .filter(Boolean)
       .sort((a, b) => {
@@ -104,7 +104,7 @@ async function fetchText(url) {
 
 async function loadFrontmatter(entry) {
   try {
-    const raw = await fetch(`posts/${entry.file}`).then(res => res.text());
+    const raw = await fetch(`sessions/${entry.file}`).then(res => res.text());
     const parsed = parseFrontmatter(raw);
     const idRaw = parsed.meta && parsed.meta.id !== undefined ? parsed.meta.id : null;
     const idNumber = Number.isFinite(Number(idRaw)) ? Number(idRaw) : null;
@@ -205,7 +205,7 @@ async function renderPost(post) {
   elements.prev.disabled = currentIdx <= 0;
   elements.next.disabled = currentIdx === -1 || currentIdx >= state.filtered.length - 1;
 
-  const raw = await fetch(`posts/${post.file}`).then(res => res.text());
+  const raw = await fetch(`sessions/${post.file}`).then(res => res.text());
   const parsed = parseFrontmatter(raw);
   const blocks = splitBlocks(parsed.content);
   elements.postContent.innerHTML = blocks.map((block, i) => {
