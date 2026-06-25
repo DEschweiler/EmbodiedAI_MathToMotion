@@ -1,42 +1,40 @@
 # media/
 
-Final course visualizations, produced by `manim_studio.ipynb` — one notebook
-renders both the videos and the static images (the image scenes use Manim's
-`-s` save-last-frame flag).
+Finale Kurs-Visualisierungen, erzeugt von den `session_XX_manim.ipynb`-Notebooks
+(ein Notebook pro Session). Jede Szenen-Zelle ruft am Ende `render_scene(...)` auf
+und speichert ihr Ergebnis direkt in den passenden `session_XX/`-Ordner — kein
+separater Export-Schritt. Zelle erneut ausführen = Datei wird aktualisiert.
 
-Structure:
+Struktur:
 
     media/
       README.md
+      .manim_cache/              # Manim-Arbeitsverzeichnis (Zwischendateien, von git ignoriert)
       session_01/
-        perceptron_boundary.mp4     (video)  — perceptron learning rule
-        mlp_warp.mp4                (video)  — hidden layer warps the space
-        activation_functions.png    (image)  — activations + derivatives
-        standardization.png         (image)  — loss-contour conditioning
-        mlp_architecture.png        (image)  — 48-256-256-12 with param counts
+        feature_vector_1.png
+        feature_vectors_2.png
+        feature_space_1d.png
+        feature_space_2d.png
+        feature_space_3d.png
+        standardization.png
+        perceptron_forward.mp4       (Video)  — Forward-Pass des Perceptrons
+        xor_feature_space.png        (aus session_01.pptx extrahiert — noch kein Notebook-Quellcode)
 
-Only the files under `session_XX/` are "real" assets: they are the clean,
-final files referenced by the session markdown via `<video>`/`<img>` tags,
-and the same files you drop into PowerPoint later.
+Nur die Dateien unter `session_XX/` sind "echte" Assets: die sauberen, finalen
+Dateien, die von der Session-Markdown (`<video>`/`<img>`) referenziert und in
+PowerPoint übernommen werden.
 
-## Scratch folders (safe to delete)
+## Scratch-Ordner (kann jederzeit gelöscht werden)
 
-When you render in the notebook, Manim recreates auto-generated working
-folders next to this one:
+Beim Rendern legt Manim sein Arbeitsverzeichnis unter `media/.manim_cache/` an
+(Zwischen-Renders, Teil-Videos, Text-Cache). Dieser Ordner ist in `.gitignore`
+ausgenommen und kann jederzeit gelöscht werden; beim nächsten Rendern wird er
+neu erzeugt.
 
-    media/videos/   media/jupyter/   media/images/   media/texts/
+## git-Hinweis
 
-These are raw renders, inline-preview copies, and a text cache — none of them
-are referenced by the site. They can be deleted any time; the export cell in
-`manim_studio.ipynb` copies the finished files into `session_XX/` for you.
+Die Dateien unter `media/session_01/` werden eingecheckt (inklusive der Videos,
+die bisher klein sind). Falls die Videos später zu groß werden, können sie über
+`.gitignore` ausgenommen werden, z. B.:
 
-## git note
-
-`.gitignore` currently ignores all of `media/`, so nothing here is committed
-(videos are large and were intentionally kept local for now). If you later
-want the **images** to appear on the deployed GitHub Pages site, track them
-explicitly, e.g. add to `.gitignore`:
-
-    media/*
-    !media/session_01/
-    media/session_01/*.mp4      # still skip the large videos
+    media/session_01/*.mp4

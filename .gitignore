@@ -3,7 +3,4 @@
 .vscode/
 *.docx
 .doc
-media/texts/*
-media/videos/*
-media/images/*
-media/jupyter/*
+media/.manim_cache/

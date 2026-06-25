@@ -138,14 +138,6 @@ where $\eta > 0$ is the *learning rate*. The update is intuitive: if we predicte
 
 ---
 
-## Visualization: The Perceptron Learns Its Boundary
-
-<video src="media/session_01/perceptron_boundary.mp4" controls loop muted playsinline style="max-width:100%;border-radius:10px;"></video>
-
-*The learning rule nudges the decision line after each misclassified point until the two classes are separated. The red arrow is the weight vector $\mathbf{w}$, which always stays orthogonal to the boundary $\mathbf{w}\cdot\mathbf{x} + b = 0$.*
-
----
-
 ## Why One Perceptron Isn't Enough: XOR
 
 The XOR function outputs 1 when exactly one of two binary inputs is 1:
@@ -157,28 +149,15 @@ The XOR function outputs 1 when exactly one of two binary inputs is 1:
 | 1 | 0 | 1 |
 | 1 | 1 | 0 |
 
-Plot the four points in 2D with their labels (circle = 0, cross = 1):
+Plot the four points in 2D, colored by their XOR output:
 
-```
-x₂
-1 |  ×  ○
-  |
-0 |  ○  ×
-  +--------
-     0  1   x₁
-```
+<img src="media/session_01/xor_feature_space.png" alt="The four XOR points in 2D, colored by output: the output-1 points on one diagonal, the output-0 points on the other" style="max-width:100%;border-radius:10px;">
 
-Draw a single straight line that separates the circles from the crosses. It is impossible. The two classes are not linearly separable — no choice of $\mathbf{w}$ and $b$ works. Minsky & Papert (1969) proved this formally. The decision boundary of a single perceptron is *always* a hyperplane, regardless of the activation function. A hyperplane cannot carve the XOR pattern out of $\mathbb{R}^2$.
+*The four XOR inputs colored by output: the output-1 points $(0,1)$ and $(1,0)$ lie on one diagonal, the output-0 points $(0,0)$ and $(1,1)$ on the other.*
+
+Try to draw a single straight line that separates the two colors. It is impossible. The two classes are not linearly separable — no choice of $\mathbf{w}$ and $b$ works. Minsky & Papert (1969) proved this formally. The decision boundary of a single perceptron is *always* a hyperplane, regardless of the activation function. A hyperplane cannot carve the XOR pattern out of $\mathbb{R}^2$.
 
 **Why does this matter for the robot?** Real perception tasks — detecting a staircase from depth images, classifying terrain type, identifying a door handle — are far more complex than XOR, yet they share its essential character: the classes are not linearly separable in the raw input space. If the simplest non-trivial logical function already defeats a single perceptron, raw pixels certainly will. The lesson is not that perceptrons are useless, but that we need a way to *reshape* the input space until the problem becomes linearly separable. That reshaping is exactly what hidden layers do.
-
----
-
-## Visualization: A Hidden Layer Warps the Space
-
-<video src="media/session_01/mlp_warp.mp4" controls loop muted playsinline style="max-width:100%;border-radius:10px;"></video>
-
-*One hidden layer $\mathbf{h} = \tanh(W\mathbf{x} + \mathbf{b})$ bends the input plane — a linear change of basis followed by the tanh nonlinearity — until the XOR classes become linearly separable in the latent space, where a single straight line works.*
 
 ---
 
@@ -220,10 +199,6 @@ Getting the matrix shapes right is half the battle when implementing networks. F
 | **Total** | | | | **81,420** |
 
 About 81,000 parameters — every one of them adjusted during training. This is tiny by modern standards (large language models have hundreds of billions), but it is already far beyond what any human could set by hand. That is precisely why we need *learning*.
-
-<img src="media/session_01/mlp_architecture.png" alt="MLP architecture 48-256-256-12 with per-layer parameter counts" style="max-width:100%;border-radius:10px;">
-
-*The Go2 motor controller as an MLP: 48 sensor inputs → two hidden layers of 256 units (ReLU) → 12 joint outputs, fully connected, 81,420 parameters in total.*
 
 ### How Deep, How Wide?
 
@@ -272,17 +247,9 @@ The outputs are positive and sum to 1, so they can be read as class probabilitie
 
 ---
 
-## Visualization: Activation Functions and Their Derivatives
-
-<img src="media/session_01/activation_functions.png" alt="Activation functions and their derivatives" style="max-width:100%;border-radius:10px;">
-
-*Solid = function, dashed = derivative. The sigmoid and tanh derivatives vanish at the extremes — the saturation that bends the plane in the hidden-layer visualization — while ReLU's derivative stays exactly 1 for positive inputs, which is why it resists vanishing gradients.*
-
----
-
 ## Representation Learning: The Real Payoff
 
-Step back from the mechanics and notice what hidden layers actually *do*. They don't just add parameters — they learn a new coordinate system for the data. Geometrically, each layer **deforms the coordinate space itself**: a linear map (a change of basis) followed by a nonlinear activation that stretches and folds the plane, so that data which was hopelessly tangled in the input space becomes neatly separable in the transformed space — exactly the warping shown in the hidden-layer visualization above. In the XOR example, the hidden layer moved the points until a straight line could separate them. In a vision network, the first layers learn to detect edges, later layers combine edges into textures and shapes, and the final layers respond to whole objects (Session 5 makes this concrete).
+Step back from the mechanics and notice what hidden layers actually *do*. They don't just add parameters — they learn a new coordinate system for the data. Geometrically, each layer **deforms the coordinate space itself**: a linear map (a change of basis) followed by a nonlinear activation that stretches and folds the plane, so that data which was hopelessly tangled in the input space becomes neatly separable in the transformed space — exactly the warping a hidden layer performs. In the XOR example, the hidden layer moved the points until a straight line could separate them. In a vision network, the first layers learn to detect edges, later layers combine edges into textures and shapes, and the final layers respond to whole objects (Session 5 makes this concrete).
 
 This is the central idea of deep learning: **we do not hand-design features anymore; the network learns the features and the decision rule jointly, end to end.** Everything that follows in this series — CNNs, transformers, multimodal models — is a different architecture for learning useful representations of a different kind of data.
 
