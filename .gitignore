@@ -3,4 +3,9 @@
 .vscode/
 *.docx
 .doc
+# Office-Sperrdateien (entstehen, solange eine Datei geöffnet ist)
+~$*
 media/.manim_cache/
+
+# internal Manim style/technique guide — not for publishing
+.manim_style_guide.md
